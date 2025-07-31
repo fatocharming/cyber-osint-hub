@@ -1,40 +1,65 @@
-import socket
 import requests
 
-def get_ip_info(ip):
+def fetch_http_headers(url):
     """
-    Fetches public information about the given IP address using ipinfo.io API.
-    Returns a dictionary with the IP information.
+    Fetches HTTP headers from a given URL and returns them in a readable format.
+    
+    Parameters:
+    url (str): The target URL to fetch headers from.
+    
+    Returns:
+    dict: A dictionary containing HTTP headers.
     """
     try:
-        response = requests.get(f"https://ipinfo.io/{ip}/json")
-        response.raise_for_status()  # Raise an error for bad responses
-        return response.json()  # Return the JSON response as a dictionary
+        response = requests.get(url)
+        # Return the headers as a dictionary
+        return response.headers
     except requests.RequestException as e:
-        print(f"Error fetching IP info: {e}")
+        print(f"Error fetching headers: {e}")
         return None
 
-def port_scanner(target, ports):
+def analyze_headers(headers):
     """
-    Scans the specified ports on the target host.
-    Prints the status of each port (open/closed).
+    Analyzes the HTTP headers for common security-related headers.
+    
+    Parameters:
+    headers (dict): HTTP headers to analyze.
+    
+    Returns:
+    None: Prints out the analysis results.
     """
-    print(f"Scanning {target} for open ports...")
-    for port in ports:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.settimeout(1)  # Set timeout for the connection attempt
-            result = sock.connect_ex((target, port))  # Try to connect to the port
-            if result == 0:
-                print(f"Port {port}: OPEN")
-            else:
-                print(f"Port {port}: CLOSED")
+    security_headers = [
+        'Strict-Transport-Security',
+        'Content-Security-Policy',
+        'X-Content-Type-Options',
+        'X-Frame-Options',
+        'X-XSS-Protection',
+        'Referrer-Policy'
+    ]
+    
+    print("\n--- HTTP Header Analysis ---")
+    for header in security_headers:
+        value = headers.get(header, 'Not Present')
+        print(f"{header}: {value}")
+
+def main():
+    """
+    Main function to execute the script.
+    Prompts user for a URL and fetches header information.
+    
+    Returns:
+    None
+    """
+    url = input("Enter the URL to analyze (including http:// or https://): ")
+    headers = fetch_http_headers(url)
+    
+    if headers:
+        print("\nFetched HTTP Headers:")
+        for key, value in headers.items():
+            print(f"{key}: {value}")
+        
+        analyze_headers(headers)
 
 if __name__ == "__main__":
-    target_ip = input("Enter the target IP address: ")  # Get IP from user
-    ports_to_scan = [22, 80, 443, 8080]  # Common ports to scan
-    ip_info = get_ip_info(target_ip)  # Fetch IP information
-
-    if ip_info:
-        print(f"IP Information: {ip_info}")  # Display IP info if successful
-
-    port_scanner(target_ip, ports_to_scan)  # Perform port scan
+    main()
+```
