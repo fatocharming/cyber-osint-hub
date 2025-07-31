@@ -1,0 +1,159 @@
+/* General Styles */
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#cyber-dashboard {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Data Packet Animation */
+@keyframes data-packet {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) translateX(20px);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-40px) translateX(40px);
+        opacity: 0;
+    }
+}
+
+.data-packet {
+    position: absolute;
+    background: linear-gradient(135deg, #00ff99, #00ccff);
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    animation: data-packet 3s linear forwards;
+    animation-delay: calc(3s * var(--i));
+}
+
+/* Pulsating Activity Indicator */
+.activity-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ff0055;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 25px rgba(255, 0, 85, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    }
+}
+
+/* Typing Effect */
+.typing-effect {
+    font-family: 'Courier New', Courier, monospace;
+    display: inline-block;
+    border-right: 2px solid #00ff99;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #00ff99;
+    }
+}
+
+/* Abstract Network Visualization */
+.network {
+    position: relative;
+}
+
+.node {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #00ccff;
+    border-radius: 50%;
+    animation: node-move 5s infinite;
+}
+
+@keyframes node-move {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(100px, 50px);
+    }
+    50% {
+        transform: translate(50px, 100px);
+    }
+    75% {
+        transform: translate(0, 50px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.line {
+    position: absolute;
+    background: #00ff99;
+    height: 2px;
+    animation: line-draw 5s infinite;
+}
+
+@keyframes line-draw {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    #cyber-dashboard {
+        flex-direction: column;
+    }
+    
+    .activity-indicator {
+        width: 15px;
+        height: 15px;
+    }
+}
