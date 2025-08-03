@@ -1,47 +1,41 @@
-/* General Styles */
-body {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
+/* Main Container */
 #cyber-dashboard {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
 }
 
 /* Data Packet Animation */
-@keyframes data-packet {
-    0% {
-        transform: translateY(0) translateX(0);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(-20px) translateX(20px);
-        opacity: 0.5;
-    }
-    100% {
-        transform: translateY(-40px) translateX(40px);
-        opacity: 0;
-    }
-}
-
 .data-packet {
     position: absolute;
-    background: linear-gradient(135deg, #00ff99, #00ccff);
-    border-radius: 5px;
     width: 10px;
     height: 10px;
-    animation: data-packet 3s linear forwards;
-    animation-delay: calc(3s * var(--i));
+    border-radius: 50%;
+    background: linear-gradient(45deg, #00ff99, #007acc);
+    animation: movePacket 5s infinite ease-in-out;
+}
+
+@keyframes movePacket {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    25% {
+        transform: translate(50vw, 50vh) scale(1.5);
+    }
+    50% {
+        transform: translate(-50%, 50vh) scale(1);
+    }
+    75% {
+        transform: translate(50vw, -50vh) scale(1.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 /* Pulsating Activity Indicator */
@@ -49,111 +43,90 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ff0055;
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    background: #ff3d00;
+    box-shadow: 0 0 20px rgba(255, 61, 0, 0.5);
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+        opacity: 0.8;
     }
     50% {
-        transform: scale(1.2);
-        box-shadow: 0 0 25px rgba(255, 0, 85, 0.8);
+        transform: scale(1.5);
+        opacity: 1;
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+        opacity: 0.8;
     }
 }
 
 /* Typing Effect */
 .typing-effect {
-    font-family: 'Courier New', Courier, monospace;
-    display: inline-block;
-    border-right: 2px solid #00ff99;
+    font-family: 'Courier New', monospace;
     white-space: nowrap;
     overflow: hidden;
+    border-right: 2px solid #00ff99;
     width: 0;
-    animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+    animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
 }
 
 @keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
+    from { width: 0; }
+    to { width: 100%; }
 }
 
-@keyframes blink-caret {
-    from, to {
-        border-color: transparent;
-    }
-    50% {
-        border-color: #00ff99;
-    }
+@keyframes blink {
+    50% { border-color: transparent; }
 }
 
-/* Abstract Network Visualization */
+/* Network Visualization */
 .network {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .node {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #00ccff;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    animation: node-move 5s infinite;
+    background: #007acc;
+    position: absolute;
+    animation: nodePulse 2s infinite;
 }
 
-@keyframes node-move {
+@keyframes nodePulse {
     0% {
-        transform: translate(0, 0);
-    }
-    25% {
-        transform: translate(100px, 50px);
+        transform: scale(1);
     }
     50% {
-        transform: translate(50px, 100px);
-    }
-    75% {
-        transform: translate(0, 50px);
+        transform: scale(1.2);
+        background: #00ff99;
     }
     100% {
-        transform: translate(0, 0);
+        transform: scale(1);
     }
 }
 
 .line {
     position: absolute;
-    background: #00ff99;
-    height: 2px;
-    animation: line-draw 5s infinite;
+    width: 2px;
+    background: rgba(0, 255, 153, 0.5);
+    transform-origin: 0 0;
+    animation: drawLine 3s infinite;
 }
 
-@keyframes line-draw {
+@keyframes drawLine {
     0% {
-        width: 0;
+        transform: scaleX(0);
+    }
+    50% {
+        transform: scaleX(1);
     }
     100% {
-        width: 100%;
-    }
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    #cyber-dashboard {
-        flex-direction: column;
-    }
-    
-    .activity-indicator {
-        width: 15px;
-        height: 15px;
+        transform: scaleX(0);
     }
 }
