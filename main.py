@@ -1,61 +1,59 @@
 import requests
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup
 
 def get_http_headers(url):
-    """Fetches HTTP headers from the specified URL."""
-    try:
-        response = requests.head(url)
-        return response.headers
-    except requests.RequestException as e:
-        print(f"Error fetching headers: {e}")
-        return None
-
-def get_meta_data(url):
-    """Extracts metadata from the HTML of the specified URL."""
+    """
+    Fetches the HTTP headers from the specified URL.
+    
+    Args:
+        url (str): The target URL to analyze.
+    
+    Returns:
+        dict: A dictionary containing the HTTP headers.
+    """
     try:
         response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Extract title and description
-        title = soup.title.string if soup.title else "N/A"
-        description = soup.find('meta', attrs={'name': 'description'})
-        description_content = description['content'] if description else "N/A"
-        
-        return {
-            'title': title,
-            'description': description_content
-        }
+        return response.headers
     except requests.RequestException as e:
-        print(f"Error fetching metadata: {e}")
-        return None
+        print(f"Error fetching {url}: {e}")
+        return {}
 
-def analyze_url(url):
-    """Analyzes a URL by fetching HTTP headers and metadata."""
-    print(f"Analyzing URL: {url}")
+def analyze_headers(headers):
+    """
+    Analyzes and prints important HTTP header information.
     
-    # Parse the URL to ensure it's valid
-    parsed_url = urlparse(url)
-    if not all([parsed_url.scheme, parsed_url.netloc]):
-        print("Invalid URL. Please provide a complete URL, including the scheme (http/https).")
+    Args:
+        headers (dict): The HTTP headers to analyze.
+    """
+    print("HTTP Header Analysis:")
+    for header, value in headers.items():
+        print(f"{header}: {value}")
+
+    # Check for security-related headers
+    security_headers = ['Strict-Transport-Security', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options']
+    print("\nSecurity Headers:")
+    for header in security_headers:
+        if header in headers:
+            print(f"{header} is present: {headers[header]}")
+        else:
+            print(f"{header} is missing!")
+
+def main():
+    """
+    Main function to execute the OSINT script for HTTP headers.
+    """
+    target_url = input("Enter a URL to analyze (e.g., http://example.com): ")
+    parsed_url = urlparse(target_url)
+
+    # Ensure the URL has a scheme
+    if not parsed_url.scheme:
+        print("Please include the scheme (http or https) in the URL.")
         return
-    
-    # Fetch and print HTTP headers
-    headers = get_http_headers(url)
+
+    headers = get_http_headers(target_url)
     if headers:
-        print("\nHTTP Headers:")
-        for key, value in headers.items():
-            print(f"{key}: {value}")
-    
-    # Fetch and print metadata
-    metadata = get_meta_data(url)
-    if metadata:
-        print("\nMetadata:")
-        print(f"Title: {metadata['title']}")
-        print(f"Description: {metadata['description']}")
+        analyze_headers(headers)
 
 if __name__ == "__main__":
-    # Example usage
-    url_to_analyze = input("Enter a URL to analyze (e.g., https://example.com): ")
-    analyze_url(url_to_analyze)
+    main()
 ```
