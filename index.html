@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +7,43 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-
 <body>
     <div id="cyber-dashboard">
         <header>
             <h1>OSINT Cybersecurity Dashboard</h1>
+            <p>Explore the world of Open Source Intelligence</p>
         </header>
-
         <section class="terminal">
             <h2>Simulated Terminal</h2>
             <div class="terminal-output">
-                <pre>Initializing OSINT tools...
-> Scanning for vulnerabilities...
-> Data retrieval in progress...</pre>
+                <pre id="terminal">> Welcome to the OSINT Terminal<br/>Loading data...</pre>
             </div>
         </section>
-
         <section class="data-visualization">
-            <h2>Dynamic Data Visualization</h2>
-            <div class="chart">
-                <div class="bar" style="height: 70%; animation-delay: 0.1s;"></div>
-                <div class="bar" style="height: 50%; animation-delay: 0.2s;"></div>
-                <div class="bar" style="height: 90%; animation-delay: 0.3s;"></div>
-                <div class="bar" style="height: 30%; animation-delay: 0.4s;"></div>
-                <div class="bar" style="height: 80%; animation-delay: 0.5s;"></div>
+            <h2>Dynamic Data Visualizations</h2>
+            <div class="chart" id="chart">
+                <div class="bar" id="bar1"></div>
+                <div class="bar" id="bar2"></div>
+                <div class="bar" id="bar3"></div>
             </div>
         </section>
-
         <section class="network-map">
             <h2>Network Map</h2>
-            <div class="network-node" style="top: 20%; left: 30%;">Node 1</div>
-            <div class="network-node" style="top: 60%; left: 50%;">Node 2</div>
-            <div class="network-node" style="top: 40%; left: 70%;">Node 3</div>
-            <div class="network-node" style="top: 80%; left: 20%;">Node 4</div>
-            <div class="network-node" style="top: 10%; left: 80%;">Node 5</div>
+            <div class="network-container">
+                <div class="node" id="node1">Node A</div>
+                <div class="node" id="node2">Node B</div>
+                <div class="node" id="node3">Node C</div>
+                <div class="connection" id="connection1"></div>
+                <div class="connection" id="connection2"></div>
+            </div>
         </section>
-
-        <section class="encryption-decryption">
-            <h2>Encryption/Decryption Simulation</h2>
-            <div class="encryption-box">
-                <p>Encrypted: <span class="encrypted-text">U2FsdGVkX1...</span></p>
-                <button id="decrypt-button">Decrypt</button>
+        <section class="encryption">
+            <h2>Encryption/Decryption Effects</h2>
+            <div class="encryption-container">
+                <div class="encrypted-text" id="encrypted">Encrypted Message</div>
+                <button id="decrypt-btn">Decrypt</button>
             </div>
         </section>
     </div>
 </body>
-
 </html>
