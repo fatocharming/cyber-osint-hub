@@ -1,45 +1,45 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const terminalOutput = document.getElementById("terminal-output");
-    const cursor = document.createElement("span");
-    cursor.className = "cursor";
-    cursor.textContent = "|";
-    terminalOutput.appendChild(cursor);
-    
-    const commands = [
-        "Initializing OSINT framework...",
-        "Gathering data from sources...",
-        "Analyzing information...",
-        "Generating report...",
-        "Completed! All systems operational."
-    ];
-
+document.addEventListener('DOMContentLoaded', () => {
+    const output = document.getElementById('terminal-output');
+    const cursor = document.getElementById('cursor');
+    const commands = ['Fetching data...', 'Analyzing results...', 'Generating report...'];
     let commandIndex = 0;
 
-    function typeCommand() {
-        if (commandIndex < commands.length) {
-            terminalOutput.innerHTML += `<div>${commands[commandIndex]}</div>`;
-            commandIndex++;
-            setTimeout(typeCommand, 2000);
-        } else {
-            cursor.style.display = "none"; // Hide cursor after completion
-        }
-    }
+    const typeCommand = () => {
+        const command = commands[commandIndex];
+        output.innerHTML = '';
+        let i = 0;
+        const typingInterval = setInterval(() => {
+            if (i < command.length) {
+                output.innerHTML += command.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                setTimeout(() => {
+                    commandIndex = (commandIndex + 1) % commands.length;
+                    typeCommand();
+                }, 1000);
+            }
+        }, 100);
+    };
 
-    function toggleCursor() {
-        cursor.style.visibility = (cursor.style.visibility === 'hidden') ? 'visible' : 'hidden';
-    }
-    
-    setInterval(toggleCursor, 500); // Blinking cursor
-    typeCommand(); // Start typing commands
+    const blinkCursor = () => {
+        setInterval(() => {
+            cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+        }, 500);
+    };
 
-    // Interactive button to refresh data
-    const refreshButton = document.getElementById("refresh-data");
-    refreshButton.addEventListener("click", () => {
-        terminalOutput.innerHTML = ""; // Clear previous output
-        commandIndex = 0; // Reset command index
-        typeCommand(); // Re-run command simulation
-    });
+    const updateDataVisualization = () => {
+        const data = Math.floor(Math.random() * 100);
+        const chart = document.getElementById('data-chart');
+        chart.style.width = `${data}%`;
+        chart.innerHTML = `${data}% of data processed`;
+        setTimeout(updateDataVisualization, 2000);
+    };
+
+    typeCommand();
+    blinkCursor();
+    updateDataVisualization();
 });
 ```
 
-Make sure to include a corresponding HTML structure with an element having `id="terminal-output"` and a button with `id="refresh-data"` for the script to function correctly.
+This code snippet creates a simulated terminal output with typing effects, a blinking cursor, and dynamic data visualizations for an OSINT web project. Adjust the HTML accordingly to include elements with IDs `terminal-output`, `cursor`, and `data-chart` for the script to function properly.
